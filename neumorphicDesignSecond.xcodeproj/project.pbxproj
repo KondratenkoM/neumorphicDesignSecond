@@ -8,21 +8,21 @@
 
 /* Begin PBXBuildFile section */
 		183A02842803688300A1C506 /* neumorphicDesignSecondApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183A02832803688300A1C506 /* neumorphicDesignSecondApp.swift */; };
-		183A02862803688300A1C506 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183A02852803688300A1C506 /* ContentView.swift */; };
 		183A02882803688700A1C506 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 183A02872803688700A1C506 /* Assets.xcassets */; };
 		183A028B2803688700A1C506 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 183A028A2803688700A1C506 /* Preview Assets.xcassets */; };
 		183A028D2803688700A1C506 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183A028C2803688700A1C506 /* Persistence.swift */; };
 		183A02902803688700A1C506 /* neumorphicDesignSecond.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 183A028E2803688700A1C506 /* neumorphicDesignSecond.xcdatamodeld */; };
+		183A02972803689F00A1C506 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183A02962803689F00A1C506 /* ContentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		183A02802803688300A1C506 /* neumorphicDesignSecond.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = neumorphicDesignSecond.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		183A02832803688300A1C506 /* neumorphicDesignSecondApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = neumorphicDesignSecondApp.swift; sourceTree = "<group>"; };
-		183A02852803688300A1C506 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		183A02872803688700A1C506 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		183A028A2803688700A1C506 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		183A028C2803688700A1C506 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		183A028F2803688700A1C506 /* neumorphicDesignSecond.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = neumorphicDesignSecond.xcdatamodel; sourceTree = "<group>"; };
+		183A02962803689F00A1C506 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,11 +56,11 @@
 			isa = PBXGroup;
 			children = (
 				183A02832803688300A1C506 /* neumorphicDesignSecondApp.swift */,
-				183A02852803688300A1C506 /* ContentView.swift */,
 				183A02872803688700A1C506 /* Assets.xcassets */,
 				183A028C2803688700A1C506 /* Persistence.swift */,
 				183A028E2803688700A1C506 /* neumorphicDesignSecond.xcdatamodeld */,
 				183A02892803688700A1C506 /* Preview Content */,
+				183A02962803689F00A1C506 /* ContentView.swift */,
 			);
 			path = neumorphicDesignSecond;
 			sourceTree = "<group>";
@@ -144,8 +144,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				183A028D2803688700A1C506 /* Persistence.swift in Sources */,
-				183A02862803688300A1C506 /* ContentView.swift in Sources */,
 				183A02842803688300A1C506 /* neumorphicDesignSecondApp.swift in Sources */,
+				183A02972803689F00A1C506 /* ContentView.swift in Sources */,
 				183A02902803688700A1C506 /* neumorphicDesignSecond.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -6,83 +6,198 @@
 //
 
 import SwiftUI
-import CoreData
+//MARK: Color extensions
+extension Color {
+    static let offWhite = Color(red: 225 / 255, green: 225 / 255, blue: 235 / 255)
+    
+    static let darkStart = Color(red: 50 / 255, green: 60 / 255, blue: 65 / 255)
+    static let darkEnd = Color(red: 25 / 255, green: 25 / 255, blue: 30 / 255)
+    
+    static let lightStart = Color(red: 60 / 255, green: 160 / 255, blue: 240 / 255)
+    static let lightEnd = Color(red: 30 / 255, green: 80 / 255, blue: 120 / 255)
+}
+//MARK: Linear gradient extension
+extension LinearGradient {
+    init(_ colors:Color...){
+        self.init(gradient: Gradient(colors: colors),startPoint: .topLeading,endPoint: .bottomTrailing)
+    }
+    
+}
 
-struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
-
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
-        animation: .default)
-    private var items: FetchedResults<Item>
-
+//MARK: Custom button style setup
+struct SimpleButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .padding(30)
+            .contentShape(Circle())
+            .background(
+                Group {
+                    if configuration.isPressed{
+                        Circle()
+                            .fill(Color.offWhite)
+                            .overlay(
+                                Circle()
+                                    .stroke(Color.gray, lineWidth: 4)
+                                    .blur(radius: 4)
+                                    .offset(x: 2, y: 2)
+                                    .mask(Circle().fill(LinearGradient(Color.black,Color.clear)))
+                            )
+                            .overlay(
+                                Circle()
+                                    .stroke(Color.white, lineWidth: 8)
+                                    .blur(radius: 4)
+                                    .offset(x: -2, y: -2)
+                                    .mask(Circle().fill(LinearGradient(Color.clear,Color.black)))
+                            )
+                    }else{
+                    Circle()
+                        .fill(Color.offWhite)
+                        .shadow(color: .black.opacity(0.2), radius: 10, x: 10, y: 10)
+                    .shadow(color: .white.opacity(0.7), radius: 10, x: -5, y: -5)
+                    }
+                }
+            )
+        
+    }
+    
+    
+}
+//MARK: Background setup
+struct DarkBackground<S: Shape>: View {
+    
+    var isHighlighet: Bool
+    var shape: S
+    
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp!, formatter: itemFormatter)")
-                    } label: {
-                        Text(item.timestamp!, formatter: itemFormatter)
-                    }
-                }
-                .onDelete(perform: deleteItems)
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
-                }
-            }
-            Text("Select an item")
-        }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        ZStack{
+            if isHighlighet {
+                shape
+                    .fill(LinearGradient(Color.darkEnd,Color.darkStart))
+                    .overlay(shape.stroke(LinearGradient(Color.darkStart,Color.darkEnd),lineWidth: 1))
+                    .shadow(color: Color.darkStart, radius: 10, x: 5, y: 5)
+                    .shadow(color: Color.darkEnd, radius: 10, x: -5, y: -5)
+                
+            }else {
+                shape
+                    .fill(LinearGradient(Color.darkStart,Color.darkEnd))
+                    .overlay(shape.stroke(Color.darkEnd, lineWidth: 1))
+                    .shadow(color: Color.darkStart, radius: 10, x: -10, y: -10)
+                    .shadow(color: Color.darkEnd, radius: 10, x: 10, y: 10)
             }
         }
     }
+    
+}
 
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
 
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+struct ColorfulBackground<S: Shape>: View {
+    
+    var isHighlighet: Bool
+    var shape: S
+    
+    var body: some View {
+        ZStack{
+            if isHighlighet {
+                shape
+                    .fill(LinearGradient(Color.lightEnd,Color.lightStart))
+                    .overlay(shape.stroke(LinearGradient(Color.lightStart,Color.lightEnd),lineWidth: 1))
+                    .shadow(color: Color.darkStart, radius: 10, x: 5, y: 5)
+                    .shadow(color: Color.darkEnd, radius: 10, x: -5, y: -5)
+                
+            }else {
+                shape
+                    .fill(LinearGradient(Color.darkStart,Color.darkEnd))
+                    .overlay(shape.stroke(LinearGradient(Color.lightStart,Color.lightEnd), lineWidth: 1))
+                    .shadow(color: Color.darkStart, radius: 10, x: -10, y: -10)
+                    .shadow(color: Color.darkEnd, radius: 10, x: 10, y: 10)
             }
         }
+    }
+    
+}
+
+
+//MARK: Buttonstyles setup
+struct DarkButtonStyle: ButtonStyle{
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .padding(30)
+            .contentShape(Circle())
+            .background(DarkBackground(isHighlighet: configuration.isPressed, shape: Circle()))
     }
 }
 
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
+struct DarkToggleStyle: ToggleStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        Button(action: {
+            configuration.isOn.toggle()
+        },
+               label: {
+            configuration.label
+                .padding(30)
+                .contentShape(Circle())
+        })
+        .background(
+            DarkBackground(isHighlighet: configuration.isOn, shape: Circle())
+        )
+    }
+}
+
+struct ColorfulButtonStyle: ButtonStyle{
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .padding(30)
+            .contentShape(Circle())
+            .background(ColorfulBackground(isHighlighet: configuration.isPressed, shape: Circle()))
+    }
+}
+
+struct ColorfulToggleStyle: ToggleStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        Button(action: {
+            configuration.isOn.toggle()
+        },
+               label: {
+            configuration.label
+                .padding(30)
+                .contentShape(Circle())
+        })
+        .background(
+            ColorfulBackground(isHighlighet: configuration.isOn, shape: Circle())
+        )
+    }
+}
+
+//MARK: ButtonStyles end
+
+struct ContentView: View {
+    @State private var isToggle = false
+    
+    var body: some View {
+        ZStack{
+            LinearGradient(Color.darkStart,Color.darkEnd)
+            
+            VStack(spacing: 40) {
+                Button(action: {
+                    print("....")
+                }, label: {
+                    Image(systemName: "heart.fill")
+                        .foregroundColor(.gray)
+            }).buttonStyle(ColorfulButtonStyle())
+                
+                Toggle(isOn: $isToggle, label: {
+                    Image(systemName: "heart.fill")
+                        .foregroundColor(.white)
+                })
+                .toggleStyle(ColorfulToggleStyle())
+            }
+            
+        }.edgesIgnoringSafeArea(.all)
+    }
+}
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        ContentView()
     }
 }
